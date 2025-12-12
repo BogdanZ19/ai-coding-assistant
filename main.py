@@ -11,14 +11,16 @@ def main():
     if api_key is None:
         raise RuntimeError("API KEY NOT FOUND")
     
+    # Get the prompt from the user
     parser = argparse.ArgumentParser(description="Chatbot")
     parser.add_argument("user_prompt", type=str, help="User prompt")
     args = parser.parse_args()
     
+    # Create the client and make a call with the provided prompt
     client = genai.Client(api_key=api_key)
-
     response = client.models.generate_content(model=model, contents=args.user_prompt);
     
+    # Get token counts
     if response.usage_metadata is not None:
         print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}\nResponse tokens: {response.usage_metadata.candidates_token_count}\n")
     else:
